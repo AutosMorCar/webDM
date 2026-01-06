@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Automoción</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    :root {
+  --dm-marble: #f5f5f3;
+  --dm-marble-soft: #ededeb;
+  --dm-black: #111;
+  --dm-grey: #6f6f6f;
+  --dm-border: #d6d6d3;
+}
+
+    body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  color: var(--dm-black);
+
+  background-color: #f4f4f2;
+  background-image: url("marmol.avif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+}
+
+    header, footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease;
+    }
+
+    header {
+      background: var(--dm-black);
+      padding: 15px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      top: 0;
+    }
+
+    footer {
+      background: linear-gradient(to right, #000, #111, #000);
+      color: #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 6px 20px;
+      height: 40px;
+      bottom: 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    nav a,
+    nav button {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* LOGIN */
+    #login-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-modal .modal-content {
+  position: relative;
+  background-color: #1a1a1a;
+  padding: 30px 25px;
+  border-radius: 14px;
+  width: 340px;
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+#login-modal h2 {
+  color: white;
+  margin: 0 0 10px;
+}
+
+#login-modal input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a2a;
+  color: white;
+  font-size: 14px;
+}
+
+#login-modal button {
+  background: #000;
+  color: white;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#login-modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: #ff4c4c;
+  cursor: pointer;
+}
+
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      max-width: 1200px;
+      margin: auto;
+      padding: 120px 20px 80px;
+      gap: 30px;
+    }
+
+    .col-izquierda {
+      flex: 2;
+      max-width: 700px;
+    }
+
+    .col-derecha {
+  flex: 1;
+  background: none;           /* ← CLAVE */
+  padding: 0;
+  box-shadow: none;
+}
+
+    .col-derecha h3 {
+      color: #ffffff;
+    }
+
+    .col-derecha p {
+      color: #ffffff;
+    }
+
+    /* tarjeta negra */
+.contacto-box {
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+}
+
+/* logo libre */
+.logo-columna {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.logo-columna img {
+  max-width: 360px;
+  width: 100%;
+  filter: grayscale(100%);
+}
+
+@media (max-width: 1024px) {
+  .logo-columna {
+    display: none;
+  }
+}
+
+    /* SWIPER */
+    .swiper-container {
+      position: relative;
+      width: 100%;
+      max-height: 500px;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      border-radius: 14px;
+    }
+
+    /* ===============================
+   SWIPER – FLECHAS PREMIUM (DM)
+   =============================== */
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0,0,0,0.85);
+  transform: scale(1.08);
+}
+
+/* Mejor posición en móvil */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 38px;
+    height: 38px;
+  }
+  
+  header {
+    padding: 16px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  header nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  header nav a,
+  header nav button {
+    margin-left: 0;
+    font-size: 15px;
+  }
+
+  .acciones-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  #btn-editar {
+    margin-top: 18px;
+  }
+
+}
+
+
+    #info {
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+}
+
+    /* CONTACTO COCHE */
+    #contacto-modal-coche {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+    #contacto-modal-coche .contacto-modal {
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  color: #ffffff;
+  width: 420px;
+  max-width: 95vw;
+  padding: 30px 28px;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#contacto-modal-coche h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+    #contacto-modal-coche input,
+#contacto-modal-coche textarea {
+  margin-bottom: 14px;
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  color: #fff;
+  box-sizing: border-box;
+  transition: border 0.2s, background 0.2s;
+}
+
+#contacto-modal-coche input::placeholder,
+#contacto-modal-coche textarea::placeholder {
+  color: #aaaaaa;
+}
+
+#contacto-modal-coche input:focus,
+#contacto-modal-coche textarea:focus {
+  outline: none;
+  border-color: #ffffff;
+  background: #303030;
+}
+
+/* TEXTAREA */
+#contacto-modal-coche textarea {
+  resize: vertical;
+  min-height: 110px;
+  margin-bottom: 20px;
+}
+
+/* BOTÓN ENVIAR */
+#contacto-modal-coche button[type="submit"] {
+  margin-top: 8px;
+  background: #ffffff;
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#contacto-modal-coche button[type="submit"]:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+/* BOTÓN CERRAR */
+.close-contacto {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: #ff4c4c;
+  cursor: pointer;
+}
+
+    .close-contacto {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      color: #ff4c4c;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .contenedor {
+        flex-direction: column;
+      }
+    }
+
+    /* ===============================
+   FICHA COCHE – INFO PREMIUM
+   =============================== */
+
+#info h1,
+#info h2,
+#info h3 {
+  color: #ffffff;
+}
+
+#info p {
+    color: #ffffff;
+  font-size: 15px;
+  margin: 6px 0;
+}
+
+/* Etiquetas tipo: Año, Km, Combustible */
+#info p strong {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Precio destacado */
+#info .precio {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dm-black);
+  margin: 18px 0;
+}
+
+/* Separadores */
+#info hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #333, transparent);
+  margin: 20px 0;
+}
+
+/* ===============================
+   CARACTERÍSTICAS (CHIPS)
+   =============================== */
+
+.lista-caracteristicas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.caracteristica {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #dddddd;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Hover sutil */
+.caracteristica:hover {
+  background: #f0f0f0;
+  border-color: #bbbbbb;
+}
+
+
+  .btn-whatsapp,
+.btn-contacto {
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transition: all 0.2s ease;
+}
+
+/* WHATSAPP (VERDE) */
+.btn-whatsapp {
+  background: #158f12;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-whatsapp:hover {
+  background: #12750f;
+  transform: translateY(-2px);
+}
+
+/* CONTACTO (BLANCO) */
+.btn-contacto {
+  background: #ffffff;
+  color: #111;
+  border: 1px solid #ddd;
+}
+
+.btn-contacto:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.contacto-box {
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+}
+  
+  </style>
+
+  <link rel="icon" type="image/png" href="favicon.ico">
+</head>
+
+<body>
+
+<header id="main-header">
+  <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+    <span style="font-size: 36px; font-weight: 600; color: white;">DM Automoción</span>
+  </a>
+  <nav>
+    <a href="index.html">Nuestros Coches</a>
+    <button id="login-btn" onclick="mostrarLogin()">Login</button>
+    <button id="logout-btn" onclick="cerrarSesion()" style="display:none;">Cerrar Sesión</button>
+  </nav>
+</header>
+
+<!-- Modal de login -->
+<div id="login-modal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="ocultarLogin()">×</button>
+    <h2>Iniciar sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="loginAdmin()">Entrar</button>
+    <p id="login-error" style="color:red;"></p>
+  </div>
+</div>
+
+<div class="contenedor">
+  <div class="col-izquierda">
+    <div class="swiper-container">
+      <div class="swiper-wrapper" id="imagenes"></div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+    <div id="info"></div>
+  </div>
+
+  <div class="col-derecha">
+
+  <!-- TARJETA CONTACTO -->
+  <div class="contacto-box">
+    <h3>Contacto</h3>
+
+    <p><strong>Vendedor:</strong> DM Automoción</p>
+    <p><strong>Teléfono:</strong> +34 614 66 27 54</p>
+
+    <div class="acciones-contacto">
+      <a href="https://wa.me/34614662754" target="_blank" class="btn-whatsapp">
+        Contactar por WhatsApp
+      </a>
+
+      <button onclick="mostrarModalCoche(document.title)" class="btn-contacto">
+        Contáctanos
+      </button>
+    </div>
+
+    <button id="btn-editar"
+      style="display:none; margin-top:14px; padding:12px 20px;
+      background:#444; color:#fff; border:none; border-radius:8px; font-weight:bold;">
+      ✏️ Editar anuncio
+    </button>
+  </div>
+
+  <!-- LOGO COMO MORCAR -->
+  <div class="logo-columna">
+    <img src="logo-fondo.png" alt="DM Automoción">
+  </div>
+
+</div>
+
+<footer id="main-footer">
+  <span>&copy; 2026 DM Automoción. Todos los derechos reservados.</span>
+  <div>
+    <a href="#">Aviso legal</a> |
+    <a href="#">Política de privacidad</a> |
+    <a href="#">Cookies</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script src="script.js"></script>
+<script src="script-coche.js"></script>
+
+<div id="contacto-modal-coche">
+  <div class="contacto-modal">
+    <button class="close-contacto" onclick="ocultarModalCoche()">×</button>
+    <h2>Consulta sobre este coche</h2>
+    <form id="formulario-coche-modal">
+      <input type="hidden" name="coche" id="coche-modal-nombre">
+      <input type="text" name="nombre" placeholder="Tu nombre" required />
+      <input type="email" name="email" placeholder="Tu email" required />
+      <input type="text" name="telefono" placeholder="Tu teléfono" />
+      <textarea name="mensaje" placeholder="Escribe tu consulta..." rows="5" required></textarea>
+      <button type="submit">Enviar consulta</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL EDICIÓN ADMIN -->
+<div id="editar-modal"
+  style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
+  z-index:1000; justify-content:center; align-items:center;">
+
+  <div style="
+    background:#1a1a1a;
+    color:#fff;
+    width:520px;
+    max-width:95vw;
+    border-radius:14px;
+    padding:22px;
+    position:relative;
+  ">
+
+    <button id="editar-close"
+      style="position:absolute; right:10px; top:10px;
+      background:none; border:none; color:#ff4c4c;
+      font-size:20px; cursor:pointer;">×</button>
+
+    <h2 style="margin:0 0 14px 0;">Editar anuncio</h2>
+
+    <form id="form-editar">
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <input name="marca" placeholder="Marca" />
+        <input name="modelo" placeholder="Modelo" />
+        <input name="precio" type="number" placeholder="Precio (€)" />
+        <input name="anio" type="number" placeholder="Año" />
+        <input name="km" type="number" placeholder="Kilómetros" />
+        <select name="tipo">
+          <option value="">Tipo</option>
+          <option value="coches">Coches</option>
+          <option value="furgonetas">Furgonetas</option>
+        </select>
+      </div>
+
+      <textarea name="descripcion"
+        placeholder="Descripción"
+        style="width:100%; margin-top:10px; min-height:90px;"></textarea>
+
+      <input name="caracteristicas"
+        placeholder="Características separadas por comas"
+        style="width:100%; margin-top:10px;" />
+
+      <textarea name="observaciones"
+        placeholder="Observaciones (una por línea)"
+        style="width:100%; margin-top:10px; min-height:80px;"></textarea>
+
+      <!-- GALERÍA EDITABLE -->
+      <div style="margin-top:10px;">
+        <label>Imágenes actuales:</label>
+        <div id="editar-galeria"
+          style="display:flex; gap:10px; margin-top:8px; overflow-x:auto;">
+        </div>
+        <small>Marca para borrar o arrastra para reordenar</small>
+      </div>
+
+      <div style="margin-top:10px;">
+        <label>Subir imágenes nuevas:</label>
+        <input type="file" id="editar-imagenes" multiple />
+      </div>
+
+      <button type="submit"
+        style="margin-top:14px; background:#fff; color:#111;
+        border:none; border-radius:8px; padding:10px 16px;
+        font-weight:bold; cursor:pointer;">
+        Guardar cambios
+      </button>
+
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

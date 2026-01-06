@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Automoción</title>
+  <link rel="stylesheet" href="intro.css" />
+</head>
+
+<body>
+  <!-- Web real debajo -->
+  <iframe id="contenido" src="index.html"></iframe>
+
+  <!-- INTRO -->
+  <div class="intro-container">
+
+    <!-- PC -->
+    <img src="izquierda.jpeg" class="logo pc izquierda" alt="">
+    <img src="derecha.jpeg"  class="logo pc derecha"  alt="">
+
+    <!-- MÓVIL / TABLET -->
+    <img src="izquierda2.png" class="logo mobile izquierda" alt="">
+    <img src="derecha2.png"  class="logo mobile derecha"  alt="">
+
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => document.body.classList.add("animar"), 100);
+      setTimeout(() => {
+        document.querySelector(".intro-container").style.display = "none";
+      }, 1800);
+    });
+  </script>
+</body>
+</html>

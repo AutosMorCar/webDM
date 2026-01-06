@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Web real */
+#contenido {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  z-index: 0;
+}
+
+/* Intro */
+.intro-container {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+}
+
+/* Base imágenes */
+.logo {
+  width: 50vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 1.6s ease-in-out;
+}
+
+/* =====================
+   PC
+===================== */
+.pc {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+/* animación */
+body.animar .izquierda {
+  transform: translateX(-100%);
+}
+
+body.animar .derecha {
+  transform: translateX(100%);
+}
+
+/* =====================
+   MÓVIL / TABLET
+===================== */
+@media (max-width: 1024px) {
+
+  .pc {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+    width: 50vw;
+    height: 100vh;
+    object-fit: cover; /* llena pantalla */
+  }
+}
+ @media (max-width: 768px) {
+
+  .mobile {
+    display: block;
+    width: 50vw;
+    height: 100vh;
+
+    object-fit: contain;   /* 👈 CLAVE */
+    background: #000;      /* relleno limpio */
+  }
+}
