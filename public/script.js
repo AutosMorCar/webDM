@@ -92,6 +92,39 @@ async function cargarCoches() {
   cochesCache = await res.json();
 }
 
+function rellenarFiltroMarcas() {
+  const select = document.getElementById("filtro-marca");
+  if (!select) return;
+
+  const valorActual = select.value;
+
+  select.innerHTML = `<option value="">Todas</option>`;
+
+  // marcas únicas normalizadas
+  const mapaMarcas = new Map();
+
+  cochesCache.forEach(c => {
+    if (!c.marca) return;
+    const normalizada = norm(c.marca); // audi
+    if (!mapaMarcas.has(normalizada)) {
+      mapaMarcas.set(normalizada, c.marca.trim()); // Audi (bonita)
+    }
+  });
+
+  [...mapaMarcas.entries()]
+    .sort((a, b) => a[1].localeCompare(b[1]))
+    .forEach(([key, label]) => {
+      const opt = document.createElement("option");
+      opt.value = key;      // audi
+      opt.textContent = label; // Audi
+      select.appendChild(opt);
+    });
+
+  if ([...select.options].some(o => o.value === valorActual)) {
+    select.value = valorActual;
+  }
+}
+
 /* =========================
    RENDER COCHES
 ========================= */
@@ -114,7 +147,7 @@ function renderizarFiltrado() {
 
       return (
         (!tipo || c.tipo === tipo) &&
-        (!marca || c.marca === marca) &&
+        (!marca || norm(c.marca) === marca) &&
         (!q || texto.includes(q)) &&
         precio >= precioMin &&
         precio <= precioMax
@@ -188,10 +221,9 @@ function activarAltaCoche() {
   if (!input || !preview || !form) return;
 
   input.addEventListener("change", () => {
-    fileList.push(...Array.from(input.files));
-    input.value = ""; // limpia input real
-    renderPreview();
-  });
+  fileList = Array.from(input.files); // sincroniza
+  renderPreview();
+});
 
   function renderPreview() {
     preview.innerHTML = "";
@@ -252,7 +284,6 @@ function activarAltaCoche() {
     e.preventDefault();
 
     const fd = new FormData(form);
-    fileList.forEach(f => fd.append("imagenes", f));
 
     const res = await fetch("/api/coches", {
       method: "POST",
@@ -280,6 +311,7 @@ function activarAltaCoche() {
 document.addEventListener("DOMContentLoaded", async () => {
   await comprobarSesion();
   await cargarCoches();
+  rellenarFiltroMarcas();
   activarFiltros();
   activarAltaCoche();
   renderizarFiltrado();

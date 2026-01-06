@@ -70,13 +70,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!obsArray.length) return "";
 
       return `
-       <div style="margin-top:22px;">
-        <h3 style="margin:0 0 8px 0; font-size:18px;">Observaciones</h3>
-        <ul style="margin:0; padding-left:18px; line-height:1.5;">
-         ${obsArray.map(o => `<li>${o}</li>`).join("")}
-        </ul>
-      </div>
-      `;
+  <div style="margin-top:22px;">
+    <h3 style="margin:0 0 10px 0; font-size:18px; color:#fff;">Observaciones</h3>
+    <div class="lista-caracteristicas">
+      ${obsArray.map(o => `<span class="caracteristica">${o}</span>`).join("")}
+    </div>
+  </div>
+`;
     })()}
   `;
 
@@ -181,6 +181,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     formEditar.addEventListener("submit", async e => {
       e.preventDefault();
       const fd = new FormData(formEditar);
+
+      // ✅ AÑADIR IMÁGENES NUEVAS AL FORMData
+const nuevasImagenes = document.getElementById("editar-imagenes");
+if (nuevasImagenes && nuevasImagenes.files.length > 0) {
+  Array.from(nuevasImagenes.files).forEach(file => {
+    fd.append("imagenes", file);
+  });
+}
 
       // Construye 'order' con las URLs que permanecen (excluyendo las marcadas para eliminar)
       const marcadas = new Set(
