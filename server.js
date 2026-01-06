@@ -53,18 +53,23 @@ app.use(session({
   }
 }));
 
-// Archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-
 // 2️⃣ Home explícito
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'intro.html'));
+});
+
+// 2️⃣ Web principal
+app.get('/web', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 3️⃣ Página ficha coche (evita fallback raro al recargar)
 app.get('/coche.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'coche.html'));
 });
+
+// Archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 🔐 LOGIN
 app.post('/api/login', (req, res) => {
