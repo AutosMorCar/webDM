@@ -1,9 +1,13 @@
+require('dotenv').config();
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ Conectado a MongoDB"))
+  .catch(err => console.error("❌ Error de conexión:", err));
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const multer = require('multer');
-const mongoose = require('mongoose');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const fs = require('fs'); // opcional
@@ -32,11 +36,6 @@ function getPublicIdFromUrl(url) {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// 🔗 Conexión MongoDB Atlas
-mongoose.connect('mongodb+srv://Morcar:Madrid%4018@bdmorcar.cgprqun.mongodb.net/BDMorcar?retryWrites=true&w=majority')
-  .then(() => console.log("✅ Conectado a MongoDB"))
-  .catch(err => console.error("❌ Error de conexión:", err));
 
 // Middleware
 app.use(cors({ origin: true, credentials: true }));
