@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: 'carmazon-clave-supersecreta',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -69,7 +69,11 @@ app.get('/coche.html', (req, res) => {
 // 🔐 LOGIN
 app.post('/api/login', (req, res) => {
   const { usuario, password } = req.body;
-  if (usuario === 'admin' && password === 'Madrid@18') {
+
+  if (
+    usuario === process.env.ADMIN_USER &&
+    password === process.env.ADMIN_PASS
+  ) {
     req.session.admin = true;
     return res.json({ ok: true });
   }
@@ -237,51 +241,23 @@ app.delete('/api/coches/:id', async (req, res) => {
 });
 
 // 📩 CONTACTO FICHA DE COCHE
-app.post('/api/contacto', multer().none(), async (req, res) => {
-  const { nombre, email, telefono, mensaje, coche } = req.body;
-  if (!nombre || !email || !mensaje || !coche) {
-    return res.status(400).json({ error: "Faltan campos obligatorios" });
-  }
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: 'd.m.automocion25@gmail.com', pass: 'tjlu mrzv lwqr zrnz' }
-  });
-  const mailOptions = {
-    from: 'd.m.automocion25@gmail.com',
-    to: 'd.m.automocion25@gmail.com',
-    subject: `📩 Consulta sobre el coche: ${coche} de ${nombre}`,
-    html: `
-      <h3>Consulta de contacto</h3>
-      <p><strong>Nombre:</strong> ${nombre}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Teléfono:</strong> ${telefono || 'No proporcionado'}</p>
-      <p><strong>Anuncio:</strong> ${coche}</p>
-      <p><strong>Mensaje:</strong></p>
-      <p>${mensaje}</p>
-    `
-  };
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ ok: true });
-  } catch (err) {
-    console.error("❌ Error enviando correo:", err);
-    res.status(500).json({ error: "Error al enviar el correo" });
-  }
-});
-
-// 📩 FORMULARIO DE BÚSQUEDA DE COCHE
 app.post('/api/buscocoche', multer().none(), async (req, res) => {
   const { nombre, email, telefono, mensaje } = req.body;
   if (!nombre || !email || !mensaje) {
     return res.status(400).json({ error: "Faltan campos obligatorios" });
   }
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: { user: 'd.m.automocion25@gmail.com', pass: 'tjlu mrzv lwqr zrnz' }
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
   });
+
   const mailOptions = {
-    from: 'd.m.automocion25@gmail.com',
-    to: 'd.m.automocion25@gmail.com',
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
     subject: `📥 Nueva solicitud personalizada - ${nombre}`,
     html: `
       <h3>Un usuario está buscando un coche</h3>
@@ -292,11 +268,52 @@ app.post('/api/buscocoche', multer().none(), async (req, res) => {
       <p>${mensaje}</p>
     `
   };
+
   try {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error("❌ Error enviando búsqueda personalizada:", err);
+    res.status(500).json({ error: "Error al enviar el correo" });
+  }
+});
+
+// 📩 CONTACTO FICHA DE COCHE
+app.post('/api/contacto', multer().none(), async (req, res) => {
+  const { nombre, email, telefono, mensaje, coche } = req.body;
+
+  if (!nombre || !email || !mensaje || !coche) {
+    return res.status(400).json({ error: "Faltan campos obligatorios" });
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
+    subject: `📩 Consulta sobre el coche: ${coche}`,
+    html: `
+      <h3>Consulta sobre un coche</h3>
+      <p><strong>Nombre:</strong> ${nombre}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Teléfono:</strong> ${telefono || 'No proporcionado'}</p>
+      <p><strong>Coche:</strong> ${coche}</p>
+      <p><strong>Mensaje:</strong></p>
+      <p>${mensaje}</p>
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("❌ Error enviando contacto:", err);
     res.status(500).json({ error: "Error al enviar el correo" });
   }
 });
