@@ -158,35 +158,42 @@ function renderizarFiltrado() {
       div.className = "coche";
 
       div.innerHTML = `
-        <img src="${coche.imagenes?.[0] || ""}" alt="">
-        <div class="info">
-          <h3>${coche.marca} ${coche.modelo}</h3>
-          <p><strong>Año:</strong> ${coche.anio}</p>
-          <p><strong>Kilómetros:</strong> ${Number(coche.km).toLocaleString()} km</p>
-          <p class="precio">${Number(coche.precio).toLocaleString()} €</p>
-          <a href="coche.html?id=${coche._id}" class="ver-detalles">Ver detalles</a>
-        </div>
-      `;
+  <img src="${coche.imagenes?.[0] || ""}" alt="">
+  <div class="info">
+    <h3>${coche.marca} ${coche.modelo}</h3>
+    <p><strong>Año:</strong> ${coche.anio}</p>
+    <p><strong>Kilómetros:</strong> ${Number(coche.km).toLocaleString()} km</p>
+    <p class="precio">${Number(coche.precio).toLocaleString()} €</p>
 
-      if (isAdmin) {
-        const btn = document.createElement("button");
-        btn.textContent = "Eliminar";
-        btn.className = "eliminar-coche";
-        btn.onclick = async () => {
-          if (!confirm("¿Eliminar coche?")) return;
-          const res = await fetch(`/api/coches/${coche._id}`, {
-            method: "DELETE",
-            credentials: "include"
-          });
-          if (res.ok) {
-            await cargarCoches();
-            renderizarFiltrado();
-          }
-        };
-        div.querySelector(".info").appendChild(btn);
-      }
+    <div class="acciones-coche">
+      <a href="coche.html?id=${coche._id}" class="ver-detalles">
+        Ver detalles
+      </a>
+    </div>
+  </div>
+`;
 
-      contenedor.appendChild(div);
+if (isAdmin) {
+  const btn = document.createElement("button");
+  btn.textContent = "Eliminar";
+  btn.className = "eliminar-coche";
+  btn.onclick = async () => {
+    if (!confirm("¿Eliminar coche?")) return;
+    const res = await fetch(`/api/coches/${coche._id}`, {
+      method: "DELETE",
+      credentials: "include"
+    });
+    if (res.ok) {
+      await cargarCoches();
+      renderizarFiltrado();
+    }
+  };
+
+  div.querySelector(".acciones-coche").appendChild(btn);
+}
+
+contenedor.appendChild(div);
+
     });
 }
 
@@ -283,7 +290,23 @@ function activarAltaCoche() {
   form.addEventListener("submit", async e => {
     e.preventDefault();
 
-    const fd = new FormData(form);
+    const fd = new FormData();
+
+// campos normales
+fd.append("marca", form.marca.value);
+fd.append("modelo", form.modelo.value);
+fd.append("precio", form.precio.value);
+fd.append("anio", form.anio.value);
+fd.append("km", form.km.value);
+fd.append("tipo", form.tipo.value);
+fd.append("descripcion", form.descripcion.value);
+fd.append("caracteristicas", form.caracteristicas.value);
+fd.append("observaciones", form.observaciones.value);
+
+// 🔥 IMÁGENES EN EL ORDEN REAL
+fileList.forEach(file => {
+  fd.append("imagenes", file);
+});
 
     const res = await fetch("/api/coches", {
       method: "POST",

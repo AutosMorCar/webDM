@@ -25,11 +25,13 @@
   font-family: 'Inter', sans-serif;
   color: var(--dm-black);
 
-  background-color: #f4f4f2;
-  background-image: url("marmol.avif");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center top;
+  /* 🌾 Arena premium */
+  background:
+    radial-gradient(circle at 20% 20%, #d8c6a8 0%, transparent 60%),
+    radial-gradient(circle at 80% 30%, #ccb48e 0%, transparent 55%),
+    radial-gradient(circle at 50% 85%, #bfa47c 0%, transparent 60%),
+    linear-gradient(180deg, #cbb18c 0%, #b59b73 100%);
+
   background-attachment: fixed;
 }
 
@@ -42,7 +44,8 @@
     }
 
     header {
-      background: var(--dm-black);
+      background: linear-gradient(180deg, #b19062 0%, #9f7f52 100%);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
       padding: 15px 60px;
       display: flex;
       align-items: center;
@@ -51,17 +54,24 @@
     }
 
     footer {
-      background: var(--dm-black);
-      color: #ccc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      padding: 6px 20px;
-      height: 40px;
-      bottom: 0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
+  background:
+    linear-gradient(180deg, #9f7f52 0%, #8a6d45 100%);
+
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 6px 20px;
+  height: 40px;
+  bottom: 0;
+
+  box-shadow:
+    0 -6px 18px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+
+  border-top: none;
+}
 
       footer a {
   color: #ccc;
@@ -428,6 +438,65 @@ aside button {
   }
 }
 
+.acciones-coche {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;               /* separación entre botones */
+  margin-top: auto;       /* empuja los botones abajo */
+}
+
+.ver-detalles,
+.eliminar-coche {
+  padding: 11px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}
+
+/* VER DETALLES */
+.ver-detalles {
+  background: #ffffff;
+  color: #000;
+  text-decoration: none;
+}
+
+.ver-detalles:hover {
+  background: #f0f0f0;
+}
+
+/* ELIMINAR */
+.eliminar-coche {
+  background: #c62828;
+  color: #ffffff;
+}
+
+.eliminar-coche:hover {
+  background: #b71c1c;
+}
+
+/* 📱 MÓVIL */
+@media (max-width: 600px) {
+  .ver-detalles,
+  .eliminar-coche {
+    font-size: 15px;
+    padding: 13px 0;
+  }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.25;
+}
 
   </style>
 

@@ -22,11 +22,13 @@
   font-family: 'Inter', sans-serif;
   color: var(--dm-black);
 
-  background-color: #f4f4f2;
-  background-image: url("marmol.avif");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center top;
+  /* 🌾 Arena premium */
+  background:
+    radial-gradient(circle at 20% 20%, #d8c6a8 0%, transparent 60%),
+    radial-gradient(circle at 80% 30%, #ccb48e 0%, transparent 55%),
+    radial-gradient(circle at 50% 85%, #bfa47c 0%, transparent 60%),
+    linear-gradient(180deg, #cbb18c 0%, #b59b73 100%);
+
   background-attachment: fixed;
 }
 
@@ -39,7 +41,8 @@
     }
 
     header {
-      background: var(--dm-black);
+      background: linear-gradient(180deg, #b19062 0%, #9f7f52 100%);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
       padding: 15px 60px;
       display: flex;
       align-items: center;
@@ -48,20 +51,27 @@
     }
 
     footer {
-      background: linear-gradient(to right, #000, #111, #000);
-      color: #ccc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      padding: 6px 20px;
-      height: 40px;
-      bottom: 0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
+  background:
+    linear-gradient(180deg, #9f7f52 0%, #8a6d45 100%);
+
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 6px 20px;
+  height: 40px;
+  bottom: 0;
+
+  box-shadow:
+    0 -6px 18px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+
+  border-top: none;
+}
 
     footer a {
-      color: #aaa;
+      color: #ffffff;
       text-decoration: none;
       margin: 0 10px;
     }
@@ -189,26 +199,71 @@
   filter: grayscale(100%);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .logo-columna {
     display: none;
   }
+
+  .acciones-contacto {
+    display: flex;          /* 🔥 CLAVE */
+    flex-direction: column; /* 🔥 CLAVE */
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .acciones-contacto a,
+  .acciones-contacto button {
+    width: 100%;
+  }
+  .btn-whatsapp {
+    font-size: 14px;      /* 🔥 clave */
+    padding: 10px 18px;   /* ajusta altura visual */
+  }
+
+  .btn-contacto {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
+  .contenedor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .col-izquierda,
+  .col-derecha {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .col-derecha {
+    margin-top: 30px;
+  }
+
 }
 
     /* SWIPER */
     .swiper-container {
-      position: relative;
-      width: 100%;
-      max-height: 500px;
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 30px;
-    }
+  width: 100%;
+  max-height: 520px;        /* límite elegante */
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
 
-    .swiper-slide img {
-      width: 100%;
-      border-radius: 14px;
-    }
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;             /* 🔥 CLAVE */
+  max-height: 530px;
+  object-fit: contain;      /* 🔥 NO RECORTA */
+  background: #000;         /* negro elegante */
+}
 
     /* ===============================
    SWIPER – FLECHAS PREMIUM (DM)
@@ -234,8 +289,32 @@
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background: rgba(0,0,0,0.85);
-  transform: scale(1.08);
+  transform: scale none;
 }
+
+.swiper-container {
+  position: relative;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+}
+
+.swiper-button-prev {
+  left: 16px;
+}
+
+.swiper-button-next {
+  right: 16px;
+}
+
+.swiper {
+  overflow: visible;
+}
+
 
 /* Mejor posición en móvil */
 @media (max-width: 768px) {
@@ -497,6 +576,16 @@
   transition: all 0.2s ease;
 }
 
+.acciones-contacto a,
+.acciones-contacto button {
+  width: 100%;
+  min-height: 44px;          /* 🔥 MISMO ALTO REAL */
+  padding: 12px 16px;        /* 🔥 MISMO PADDING */
+  box-sizing: border-box;    /* 🔥 CLAVE ABSOLUTA */
+  font-size: 15px;
+  line-height: 1;
+}
+
 /* WHATSAPP (VERDE) */
 .btn-whatsapp {
   background: #158f12;
@@ -529,6 +618,37 @@
   box-shadow: 0 18px 45px rgba(0,0,0,0.35);
 }
   
+
+@media (min-width: 1101px) {
+
+  .acciones-contacto {
+    display: flex;
+    flex-direction: row;   /* 🔥 EN HORIZONTAL */
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .acciones-contacto a,
+  .acciones-contacto button {
+    flex: 1;               /* 🔥 MISMO ANCHO */
+    min-height: 42px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.25;
+}
+
   </style>
 
   <link rel="icon" type="image/png" href="favicon.ico">
