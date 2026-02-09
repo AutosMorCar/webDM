@@ -158,7 +158,7 @@ function renderizarFiltrado() {
       div.className = "coche";
 
       div.innerHTML = `
-  <img src="${coche.imagenes?.[0] || ""}" alt="">
+    <img src="${(coche.imagenes?.[0] || "").replace(/^http:\/\//, "https://")}">
   <div class="info">
     <h3>${coche.marca} ${coche.modelo}</h3>
     <p><strong>Año:</strong> ${coche.anio}</p>

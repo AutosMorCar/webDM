@@ -660,30 +660,33 @@ body::before {
     document.getElementById("contacto-overlay").style.display = "none";
   }
 
-  document.getElementById("form-contacto-header").addEventListener("submit", async (e) => {
-    e.preventDefault();
+    const formContactoHeader = document.getElementById("form-contacto-header");
 
-    const form = e.target;
-    const formData = new FormData(form);
+  if (formContactoHeader) {
+    formContactoHeader.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    try {
-      const res = await fetch("/api/buscocoche", {
-        method: "POST",
-        body: formData
-      });
+      const formData = new FormData(formContactoHeader);
 
-      if (res.ok) {
-        alert("✅ Tu solicitud ha sido enviada correctamente.");
-        form.reset();
-        ocultarFormularioContacto();
-      } else {
-        alert("❌ Hubo un error al enviar la solicitud.");
+      try {
+        const res = await fetch("/api/buscocoche", {
+          method: "POST",
+          body: formData
+        });
+
+        if (res.ok) {
+          alert("✅ Tu solicitud ha sido enviada correctamente.");
+          formContactoHeader.reset();
+          ocultarFormularioContacto();
+        } else {
+          alert("❌ Hubo un error al enviar la solicitud.");
+        }
+      } catch (err) {
+        console.error("❌ Error de conexión:", err);
+        alert("❌ Error de conexión.");
       }
-    } catch (err) {
-      console.error("❌ Error de conexión:", err);
-      alert("❌ Error de conexión.");
-    }
-  });
+    });
+  }
 </script>
 
 <script src="script.js"></script>
