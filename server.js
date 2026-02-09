@@ -35,6 +35,7 @@ function getPublicIdFromUrl(url) {
 }
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -48,7 +49,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,            // en producción con HTTPS: true y sameSite:'none'
+    secure: true,        // ✅ OBLIGATORIO en HTTPS
+    sameSite: "lax",     // ✅ recomendado
     maxAge: 1000 * 60 * 60 * 24
   }
 }));
@@ -325,5 +327,5 @@ app.post('/api/contacto', multer().none(), async (req, res) => {
 
 // 👂 Escuchar SIEMPRE al final
 app.listen(PORT, () => {
-  console.log(`✅ Servidor activo en http://localhost:${PORT}`);
+  console.log(`Servidor activo en el puerto ${PORT}`);
 });
