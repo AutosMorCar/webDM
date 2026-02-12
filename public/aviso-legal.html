@@ -6,15 +6,22 @@
   <title>Aviso legal | DM Automoción</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      padding: 120px 20px 80px;
+      padding: 120px 30px 80px;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg,#cbb18c,#b59b73);
-      color: #111;
+      color: #0f0f0f;
+
+      background:
+        radial-gradient(circle at 20% 20%, #d8c6a8 0%, transparent 60%),
+        radial-gradient(circle at 80% 30%, #ccb48e 0%, transparent 55%),
+        radial-gradient(circle at 50% 85%, #bfa47c 0%, transparent 60%),
+        linear-gradient(180deg, #cbb18c 0%, #b59b73 100%);
+
+      background-attachment: fixed;
     }
 
     header, footer {
@@ -22,26 +29,49 @@
       left: 0;
       right: 0;
       z-index: 999;
-      background: linear-gradient(180deg,#b19062,#9f7f52);
-      color: white;
-      padding: 14px 40px;
+      transition: transform 0.3s ease;
+    }
+
+    header {
+      background: linear-gradient(180deg, #b19062 0%, #9f7f52 100%);
+      padding: 15px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      top: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
     }
 
-    header { top: 0; }
-    footer { bottom: 0; font-size: 13px; }
+    footer {
+      background: linear-gradient(180deg, #9f7f52 0%, #8a6d45 100%);
+      color: #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 6px 20px;
+      height: 40px;
+      bottom: 0;
+    }
 
-    a { color: #000; }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
 
     main {
       max-width: 900px;
       margin: auto;
       background: #fff;
       padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     }
 
     h1 { margin-top: 0; }
@@ -50,9 +80,13 @@
 
 <body>
 
-<header>
-  <strong>DM Automoción</strong>
-  <a href="index.html" style="color:white;text-decoration:none;">Inicio</a>
+<header id="main-header">
+  <a href="index.html" style="text-decoration:none;color:white;font-size:32px;font-weight:600;">
+    DM Automoción
+  </a>
+  <a href="index.html" style="color:white;text-decoration:none;font-weight:600;">
+    Inicio
+  </a>
 </header>
 
 <main>
@@ -64,28 +98,41 @@
   <p><strong>Actividad:</strong> Venta de vehículos de ocasión</p>
 
   <h2>Condiciones de uso</h2>
-  <p>
-    El acceso y uso de este sitio web atribuye la condición de usuario, que acepta
-    desde dicho acceso las condiciones aquí reflejadas.
-  </p>
+  <p>El acceso y uso del sitio web implica la aceptación de las condiciones aquí reflejadas.</p>
 
   <h2>Responsabilidad</h2>
-  <p>
-    DM Automoción no se hace responsable del mal uso de los contenidos ni de los daños
-    derivados del acceso o uso del sitio web.
-  </p>
+  <p>DM Automoción no se responsabiliza del mal uso de los contenidos ni de los daños derivados del acceso al sitio web.</p>
 
   <h2>Propiedad intelectual</h2>
-  <p>
-    Todos los contenidos de este sitio web son propiedad de DM Automoción y quedan
-    protegidos por la normativa vigente.
-  </p>
+  <p>Todos los contenidos están protegidos por la normativa vigente.</p>
 </main>
 
-<footer>
-  <span>© 2026 DM Automoción</span>
-  <span>Aviso legal</span>
+<footer id="main-footer">
+  <span>&copy; 2026 DM Automoción. Todos los derechos reservados.</span>
+  <div>
+    <a href="aviso-legal.html">Aviso legal</a> |
+    <a href="privacidad.html">Política de privacidad</a> |
+    <a href="cookies.html">Cookies</a>
+  </div>
 </footer>
+
+<script>
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+  const currentScrollPos = window.pageYOffset;
+  const header = document.getElementById("main-header");
+  const footer = document.getElementById("main-footer");
+
+  if (prevScrollpos > currentScrollPos) {
+    header.style.transform = "translateY(0)";
+    footer.style.transform = "translateY(0)";
+  } else {
+    header.style.transform = "translateY(-100%)";
+    footer.style.transform = "translateY(100%)";
+  }
+  prevScrollpos = currentScrollPos;
+};
+</script>
 
 </body>
 </html>

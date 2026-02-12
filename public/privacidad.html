@@ -6,15 +6,22 @@
   <title>Política de privacidad | DM Automoción</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      padding: 120px 20px 80px;
+      padding: 120px 30px 80px;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg,#cbb18c,#b59b73);
-      color: #111;
+      color: #0f0f0f;
+
+      background:
+        radial-gradient(circle at 20% 20%, #d8c6a8 0%, transparent 60%),
+        radial-gradient(circle at 80% 30%, #ccb48e 0%, transparent 55%),
+        radial-gradient(circle at 50% 85%, #bfa47c 0%, transparent 60%),
+        linear-gradient(180deg, #cbb18c 0%, #b59b73 100%);
+
+      background-attachment: fixed;
     }
 
     header, footer {
@@ -22,33 +29,64 @@
       left: 0;
       right: 0;
       z-index: 999;
-      background: linear-gradient(180deg,#b19062,#9f7f52);
-      color: white;
-      padding: 14px 40px;
+      transition: transform 0.3s ease;
+    }
+
+    header {
+      background: linear-gradient(180deg, #b19062 0%, #9f7f52 100%);
+      padding: 15px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      top: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
     }
 
-    header { top: 0; }
-    footer { bottom: 0; font-size: 13px; }
+    footer {
+      background: linear-gradient(180deg, #9f7f52 0%, #8a6d45 100%);
+      color: #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 6px 20px;
+      height: 40px;
+      bottom: 0;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
 
     main {
       max-width: 900px;
       margin: auto;
       background: #fff;
       padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     }
+
+    h1 { margin-top: 0; }
   </style>
 </head>
 
 <body>
 
-<header>
-  <strong>DM Automoción</strong>
-  <a href="index.html" style="color:white;text-decoration:none;">Inicio</a>
+<header id="main-header">
+  <a href="index.html" style="text-decoration:none;color:white;font-size:32px;font-weight:600;">
+    DM Automoción
+  </a>
+  <a href="index.html" style="color:white;text-decoration:none;font-weight:600;">
+    Inicio
+  </a>
 </header>
 
 <main>
@@ -60,7 +98,7 @@
 
   <h2>Datos recopilados</h2>
   <p>
-    Los datos personales recogidos a través de los formularios se usan únicamente
+    Los datos personales recogidos a través de los formularios se utilizan exclusivamente
     para responder consultas y contactar con el cliente.
   </p>
 
@@ -69,17 +107,44 @@
     Gestionar solicitudes de información sobre vehículos y atención comercial.
   </p>
 
+  <h2>Conservación</h2>
+  <p>
+    Los datos no se ceden a terceros y se almacenan de forma segura.
+  </p>
+
   <h2>Derechos del usuario</h2>
   <p>
-    El usuario puede ejercer sus derechos de acceso, rectificación, supresión y
-    oposición contactando con DM Automoción.
+    El usuario puede ejercer sus derechos de acceso, rectificación o supresión
+    contactando con DM Automoción.
   </p>
 </main>
 
-<footer>
-  <span>© 2026 DM Automoción</span>
-  <span>Privacidad</span>
+<footer id="main-footer">
+  <span>&copy; 2026 DM Automoción. Todos los derechos reservados.</span>
+  <div>
+    <a href="aviso-legal.html">Aviso legal</a> |
+    <a href="privacidad.html">Política de privacidad</a> |
+    <a href="cookies.html">Cookies</a>
+  </div>
 </footer>
+
+<script>
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+  const currentScrollPos = window.pageYOffset;
+  const header = document.getElementById("main-header");
+  const footer = document.getElementById("main-footer");
+
+  if (prevScrollpos > currentScrollPos) {
+    header.style.transform = "translateY(0)";
+    footer.style.transform = "translateY(0)";
+  } else {
+    header.style.transform = "translateY(-100%)";
+    footer.style.transform = "translateY(100%)";
+  }
+  prevScrollpos = currentScrollPos;
+};
+</script>
 
 </body>
 </html>
